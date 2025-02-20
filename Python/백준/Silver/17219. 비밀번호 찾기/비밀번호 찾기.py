@@ -7,5 +7,4 @@ for _ in range(N):
     password[k] = v
 for _ in range(M):
     key = input()
-    sys.stdout.write(password.get(key))
-    print()
+    sys.stdout.write(password.get(key) + '\n')
