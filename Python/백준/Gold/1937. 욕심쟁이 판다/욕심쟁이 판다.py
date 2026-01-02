@@ -1,32 +1,28 @@
 import sys
-sys.setrecursionlimit(10**7)
-n = int(input())
-arr = []
+input = sys.stdin.readline
 
-for _ in range(n):
-    arr.append(list(map(int, input().split())))
+n = int(input().strip())
+arr = [list(map(int, input().split())) for _ in range(n)]
+dp = [[1]*n for _ in range(n)]  # 각 칸에 도착하는 최장 길이 (최소 1)
 
-dp = list([0]*n for _ in range(n))
+cells = []
+for r in range(n):
+    for c in range(n):
+        cells.append((arr[r][c], r, c))
 
+cells.sort()  # 값 오름차순
 
-def dfs(r, c):
-    if dp[r][c] != 0:
-        return dp[r][c]
+dirs = [(1,0),(0,1),(-1,0),(0,-1)]
 
-    temp_step = 1
-
-    for dr, dc in [[1,0],[0,1],[-1,0],[0,-1]]:
-        new_r, new_c = r+dr, c+dc
-        if 0 <= new_r < n and 0 <= new_c < n and arr[new_r][new_c] > arr[r][c]:
-            temp_step = max(temp_step, dfs(new_r, new_c) + 1)
-
-    dp[r][c] = temp_step
-    return temp_step
-
-
-ans = 0
-for i in range(n):
-    for j in range(n):
-        ans = max(ans, dfs(i, j))
+ans = 1
+for val, r, c in cells:
+    for dr, dc in dirs:
+        nr, nc = r + dr, c + dc
+        if 0 <= nr < n and 0 <= nc < n and arr[nr][nc] > val:
+            # (r,c)에서 (nr,nc)로 이동 가능: 더 큰 값으로 전이
+            if dp[nr][nc] < dp[r][c] + 1:
+                dp[nr][nc] = dp[r][c] + 1
+                if ans < dp[nr][nc]:
+                    ans = dp[nr][nc]
 
 print(ans)
