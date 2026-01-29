@@ -14,6 +14,6 @@ for i in range(len_first):
             if first_input[i] == second_input[j] == third_input[k]:
                 dp[i+1][j+1][k+1] = dp[i][j][k] + 1
             else:
-                dp[i+1][j+1][k+1] = max(dp[i][j+1][k+1], dp[i+1][j][k+1], dp[i+1][j+1][k], dp[i][j][k+1], dp[i][j+1][k], dp[i+1][j][k], dp[i][j][k])
+                dp[i+1][j+1][k+1] = max(dp[i][j+1][k+1], dp[i+1][j][k+1], dp[i+1][j+1][k], dp[i][j][k])
 
 print(dp[len_first][len_second][len_third])
